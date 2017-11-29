@@ -11,25 +11,20 @@ function handleClickPlayer2(evt){
 }
 
 function main(){
-    let emoji1 = document.querySelector(".racer player1");
-    let emoji2 = document.querySelector(".racer player2");
-
-    //send initial positions
-    socket.emit("player1InitialPosition",{x:emoji1.style.top, y:emoji1.style.top});
-    socket.emit("player2InitialPosition",{x:emoji2.style.top, y:emoji2.style.left});
+    let emoji1 = document.querySelector(".player1");
+    let emoji2 = document.querySelector(".player2");
 
     //add event listeners to clicks
     document.querySelector(".player1Btn").addEventListener("click", handleClickPlayer1);
     document.querySelector(".player2Btn").addEventListener("click", handleClickPlayer2);
 
-
     //receive moves
-    socket.on("player1NewPosition",(position)=>{
+    socket.on("player1Position",(position)=>{
         emoji1.style.top = position.y+"px";
         emoji1.style.left = position.x + "px";
     });
 
-    socket.on("player2NewPosition",(position)=>{
+    socket.on("player2Position",(position)=>{
         emoji2.style.top = position.y + "px";
         emoji2.style.left = position.x + "px";
     });
