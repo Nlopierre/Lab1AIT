@@ -11,12 +11,14 @@ function handleClickPlayer2(e){
 }
 
 function main(){
-    //create finish line
-    div.document.createElement("div");
-
     //add event listeners to clicks
-    document.querySelector(".player1Btn").addEventListener("clicked", handleClickPlayer1);
-    document.querySelector(".player2Btn").addEventListener("clicked", handleClickPlayer2);
+    document.querySelector(".player1Btn").addEventListener("click", handleClickPlayer1);
+    document.querySelector(".player2Btn").addEventListener("click", handleClickPlayer2);
+
+    //receive moves
+    socket.on("",{
+
+    });
 }
 
 document.addEventListener("DOMContentLoaded", main);
