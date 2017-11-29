@@ -11,8 +11,8 @@ function handleClickPlayer2(evt){
 }
 
 function main(){
-    let emoji1 = document.querySelector(".racer player1");
-    let emoji2 = document.querySelector(".racer player2");
+    let emoji1 = document.querySelector(".player1");
+    let emoji2 = document.querySelector(".player2");
 
     //send initial positions
     socket.emit("player1InitialPosition",{x:emoji1.style.top, y:emoji1.style.top});

@@ -8,8 +8,8 @@ app.use(express.static('public'));
 // then... within callback, use socket.on, socket.emit, socket.broadcast, etc.
 // NOTE THAT WE ARE LISTENING WITH server, NOT app!
 
-let player1Position;
-let player2Position;
+let player1Position = {'x': 0, 'y': 0};
+let player2Position = {'x': 0, 'y': 0};
 
 io.on("connect", socket=>{
     console.log("connected", socket.id);
@@ -18,32 +18,27 @@ io.on("connect", socket=>{
     from there we can use on and exit
     */
 
-	// These 2 event
-	socket.on("player1InitialPosition", (data)=>{
-        console.log("player1 initial position:", data);
-        obj.id = socket.id;
-        io.emit("other mouse", obj);
-    });
+	io.emit("player1Position", player1Position);
+	io.emit("player2Position", player2Position);
 
-	socket.on("player2InitialPosition", (data)=>{
-        console.log("player2 initial position:", data);
-        const obj = Object.assign(data);
-        obj.id = socket.id;
-        io.emit("other mouse", obj);
-    });
 
-    socket.on("player1NewPosition", (data)=>{
+    socket.on("player1Click", (data)=>{
         console.log("player1 new position:", data);
-        const obj = Object.assign(data);
-        obj.id = socket.id;
-        io.emit("other mouse", obj);
+		player1Position.x += 10
+		if (player1Position.x >= 800) {
+			io.emit("player1Won")
+		}
+        io.emit("player1Position", player1Position);
     });
 
-	socket.on("player2NewPosition", (data)=>{
+	socket.on("player2Click", (data)=>{
 		console.log("player2 new position:", data);
-		const obj = Object.assign(data);
-		obj.id = socket.id;
-		io.emit("other mouse", obj);
+		player2Position.x += 10
+
+		if (player2Position.x >= 800) {
+			io.emit("player2Won")
+		}
+		io.emit("player2Position", player2Position);
 	});
 });
 
