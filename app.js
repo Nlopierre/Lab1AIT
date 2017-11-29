@@ -8,6 +8,9 @@ app.use(express.static('public'));
 // then... within callback, use socket.on, socket.emit, socket.broadcast, etc.
 // NOTE THAT WE ARE LISTENING WITH server, NOT app!
 
+let player1Position;
+let player2Position;
+
 io.on("connect", socket=>{
     console.log("connected", socket.id);
     /*
@@ -15,12 +18,33 @@ io.on("connect", socket=>{
     from there we can use on and exit
     */
 
-    socket.on("mouse moved", (data)=>{
-        console.log(data);
+	// These 2 event
+	socket.on("player1InitialPosition", (data)=>{
+        console.log("player1 initial position:", data);
+        obj.id = socket.id;
+        io.emit("other mouse", obj);
+    });
+
+	socket.on("player2InitialPosition", (data)=>{
+        console.log("player2 initial position:", data);
         const obj = Object.assign(data);
         obj.id = socket.id;
-        socket.broadcast.emit("other mouse", obj);
+        io.emit("other mouse", obj);
     });
+
+    socket.on("player1NewPosition", (data)=>{
+        console.log("player1 new position:", data);
+        const obj = Object.assign(data);
+        obj.id = socket.id;
+        io.emit("other mouse", obj);
+    });
+
+	socket.on("player2NewPosition", (data)=>{
+		console.log("player2 new position:", data);
+		const obj = Object.assign(data);
+		obj.id = socket.id;
+		io.emit("other mouse", obj);
+	});
 });
 
 server.listen(3000);
